@@ -74,6 +74,10 @@ export default class YopmailPage {
   async switchToYopmail() {
   await test.step("Switch to Yopmail tab", async () => {
     await this.page.bringToFront();
+    await this.page.waitForTimeout(5000);
+    await this.page.reload({waitUntil: 'load'});
+    const iFrame = await this.page.locator("//iframe[@title='reCAPTCHA']")
+    await iFrame.locator("//div[@class='recaptcha-checkbox-checkmark']").click();
   });
 }
 }

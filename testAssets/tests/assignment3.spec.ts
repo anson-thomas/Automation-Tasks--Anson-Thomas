@@ -54,6 +54,7 @@ await test.step("Create a new account", async () => {
 
 await test.step("Retrieve OTP from Yopmail", async () => {
   await yopmailPage.switchToYopmail();
+  
 });
 
 const otp = await yopmailPage.getOtp();
