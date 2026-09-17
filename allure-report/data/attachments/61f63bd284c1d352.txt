@@ -14,7 +14,6 @@ Vegetables: [
   'Corn - 1 Kg',
   'Onion - 1 Kg'
 ]
-Vegetable count: 14
 Fruits: [
   'Apple - 1 Kg',
   'Banana - 1 Kg',
@@ -28,7 +27,6 @@ Fruits: [
   'Strawberry - 1/4 Kg',
   'Water Melon - 1 Kg'
 ]
-Fruit count: 11
 Nuts: [
   'Almonds - 1/4 Kg',
   'Pista - 1/4 Kg',
@@ -36,4 +34,3 @@ Nuts: [
   'Cashews - 1 Kg',
   'Walnuts - 1/4 Kg'
 ]
-Nuts count: 5

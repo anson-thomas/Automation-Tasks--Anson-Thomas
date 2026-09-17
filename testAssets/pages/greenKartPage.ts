@@ -34,10 +34,10 @@ export default class GreenKartPage {
     await this.actions.click(productCard.locator("button"));
   }
 
-  async openCart() {
-    await this.actions.click(this.cartLink);
-  }
-
+async openCart() {
+  await this.actions.click(this.cartLink);
+  await this.page.waitForTimeout(1000);
+}
   async getCartCount(): Promise<string> {
     return await this.actions.getText(this.cartCount);
   }

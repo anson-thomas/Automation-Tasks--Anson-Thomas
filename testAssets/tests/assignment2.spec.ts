@@ -1,88 +1,257 @@
-import { test, expect } from '@playwright/test';
-import list from '../testData/list.json';
+import { test, expect } from "@playwright/test";
+import list from "../testData/list.json";
 
-test('Task 1 - Identify and group products by category', async ({ page }) => {
-    await page.goto('/seleniumPractise/#/');
-    const products = page.locator('.product').filter({has: page.locator('.product-name')});
-    const productNames = await products.locator('.product-name').allTextContents();
-    const groupedProducts = productNames.map(name => {
-        if (list.vegetables.includes(name)) {
-            return { name, category: 'Vegetables' };
-        }
-        if (list.fruits.includes(name)) {
-            return { name, category: 'Fruits' };
-        }
-        if (list.nuts.includes(name)) {
-            return { name, category: 'Nuts' };
-        }
-        return { name, category: 'Unknown' };
+import GreenKartPage from "../pages/greenKartPage";
+import CartPage from "../pages/cartPage";
+import CheckoutPage from "../pages/checkoutPage";
+
+test.describe("GreenKart Automation", () => {
+  test("Task 1 - Identify and group products by category", async ({ page }) => {
+    const greenKartPage = new GreenKartPage(page);
+
+    await test.step("Navigate to GreenKart application", async () => {
+      await greenKartPage.launchWebApp();
+
+      await expect(page).toHaveURL(/seleniumPractise/);
+
+      await greenKartPage.actions.screenshot("task1-greenkart-page");
     });
-    const vegetables = groupedProducts.filter(product => product.category === 'Vegetables');
-    const fruits = groupedProducts.filter(product => product.category === 'Fruits');
-    const nuts = groupedProducts.filter(product => product.category === 'Nuts');
 
-    console.log('Vegetables:', vegetables.map(product => product.name));
-    console.log('Vegetable count:', vegetables.length);
-    console.log('Fruits:', fruits.map(product => product.name));
-    console.log('Fruit count:', fruits.length);
-    console.log('Nuts:', nuts.map(product => product.name));
-    console.log('Nuts count:', nuts.length);
+    const groupedProducts = await test.step(
+      "Identify and group products by category",
+      async () => {
+        const productNames = await greenKartPage.getProductNames();
 
-    expect(vegetables).toHaveLength(list.vegetables.length);
-    expect(fruits).toHaveLength(list.fruits.length);
-    expect(nuts).toHaveLength(list.nuts.length);
-});
+        const groupedProducts = productNames.map((name) => {
+          if (list.vegetables.includes(name)) {
+            return { name, category: "Vegetables" };
+          }
 
+          if (list.fruits.includes(name)) {
+            return { name, category: "Fruits" };
+          }
 
-test('Task 2 - Add products to cart based on category', async ({ page }) => {
-    await page.goto('/seleniumPractise/#/');
+          if (list.nuts.includes(name)) {
+            return { name, category: "Nuts" };
+          }
+
+          return { name, category: "Unknown" };
+        });
+
+        await greenKartPage.actions.screenshot(
+          "task1-products-grouped"
+        );
+
+        return groupedProducts;
+      }
+    );
+
+    await test.step("Verify products are grouped correctly", async () => {
+      const vegetables = groupedProducts.filter(
+        (product) => product.category === "Vegetables"
+      );
+
+      const fruits = groupedProducts.filter(
+        (product) => product.category === "Fruits"
+      );
+
+      const nuts = groupedProducts.filter(
+        (product) => product.category === "Nuts"
+      );
+
+      expect(vegetables).toHaveLength(list.vegetables.length);
+      expect(fruits).toHaveLength(list.fruits.length);
+      expect(nuts).toHaveLength(list.nuts.length);
+
+      console.log(
+        "Vegetables:",
+        vegetables.map((product) => product.name)
+      );
+      console.log(
+        "Fruits:",
+        fruits.map((product) => product.name)
+      );
+      console.log(
+        "Nuts:",
+        nuts.map((product) => product.name)
+      );
+
+      await greenKartPage.actions.screenshot(
+        "task1-grouping-validation"
+      );
+    });
+  });
+
+  test("Task 2 - Add products to cart based on category", async ({
+    page,
+  }) => {
+    const greenKartPage = new GreenKartPage(page);
+
     const productsToBuy = [
-        ...list.productsToBuy.vegetables,
-        ...list.productsToBuy.fruits,
-        ...list.productsToBuy.nuts
+      ...list.productsToBuy.vegetables,
+      ...list.productsToBuy.fruits,
+      ...list.productsToBuy.nuts,
     ];
-    for (const product of productsToBuy) {
-        const productCard = page.locator('.product').filter({hasText: product.name});
-        await productCard.locator('button').click();
-    }
-    const expectedCartCount =
-        list.productsToBuy.vegetables.length +
-        list.productsToBuy.fruits.length +
-        list.productsToBuy.nuts.length;
 
-    const cartCount = page.locator('.cart-count');
-    await expect(cartCount).toHaveText(expectedCartCount.toString());
-});
+    await test.step("Navigate to GreenKart application", async () => {
+      await greenKartPage.launchWebApp();
 
-test('Task 3 - Verify cart items and proceed for billing', async ({ page }) => {
-    await page.goto('/seleniumPractise/#/');
+      await expect(page).toHaveURL(/seleniumPractise/);
+
+      await greenKartPage.actions.screenshot("task2-greenkart-page");
+    });
+
+    await test.step("Add category-based products to cart", async () => {
+      for (const product of productsToBuy) {
+        await greenKartPage.addProductToCart(product.name);
+      }
+
+      await greenKartPage.actions.screenshot(
+        "task2-products-added-to-cart"
+      );
+    });
+
+    await test.step("Verify cart item count", async () => {
+      const expectedCartCount = productsToBuy.length;
+      const cartCount = await greenKartPage.getCartCount();
+
+      expect(cartCount).toBe(expectedCartCount.toString());
+
+      await greenKartPage.actions.screenshot(
+        "task2-cart-count-validation"
+      );
+    });
+  });
+
+  test("Task 3 - Verify cart items and proceed for billing", async ({
+    page,
+  }) => {
+    const greenKartPage = new GreenKartPage(page);
+    const cartPage = new CartPage(page);
+    const checkoutPage = new CheckoutPage(page);
+
     const productsToBuy = [
-        ...list.productsToBuy.vegetables,
-        ...list.productsToBuy.fruits,
-        ...list.productsToBuy.nuts
+      ...list.productsToBuy.vegetables,
+      ...list.productsToBuy.fruits,
+      ...list.productsToBuy.nuts,
     ];
-    for (const product of productsToBuy) {
-        const productCard = page.locator('.product').filter({hasText: product.name});
-        await productCard.locator('button').click();
-    }
-    await page.getByRole('link', { name: 'Cart' }).click();
-    await page.getByRole('button', {name: 'PROCEED TO CHECKOUT'}).click();
-    for (const product of productsToBuy) {
-        const row = page.locator('#productCartTables tbody tr').filter({hasText: product.name});
+
+    await test.step("Navigate to GreenKart application", async () => {
+      await greenKartPage.launchWebApp();
+
+      await expect(page).toHaveURL(/seleniumPractise/);
+
+      await greenKartPage.actions.screenshot("task3-greenkart-page");
+    });
+
+    await test.step("Add products to cart", async () => {
+      for (const product of productsToBuy) {
+        await greenKartPage.addProductToCart(product.name);
+      }
+
+      await greenKartPage.actions.screenshot(
+        "task3-products-added-to-cart"
+      );
+    });
+
+    await test.step("Navigate to cart", async () => {
+      await greenKartPage.openCart();
+
+      await expect(page).toHaveURL("/cart");
+
+      await greenKartPage.actions.screenshot("task3-cart-page");
+    });
+
+    await test.step("Proceed to checkout", async () => {
+      await cartPage.proceedToCheckout();
+
+      await greenKartPage.actions.screenshot(
+        "task3-checkout-page"
+      );
+    });
+
+    await test.step("Verify cart products, quantities and prices", async () => {
+      for (const product of productsToBuy) {
+        const row = cartPage.getProductRow(product.name);
+
         await expect(row).toBeVisible();
-        await expect(row.locator('.quantity')).toHaveText(product.quantity.toString());
-        await expect(row.locator('.amount').first()).toHaveText(product.price.toString());
+
+        await expect(row.locator(".quantity")).toHaveText(
+          product.quantity.toString()
+        );
+
+        await expect(row.locator(".amount").first()).toHaveText(
+          product.price.toString()
+        );
+
         const expectedTotal = product.price * product.quantity;
-        await expect(row.locator('.amount').nth(1)).toHaveText(expectedTotal.toString());
-    }
-    const totalItems = productsToBuy.reduce((total, product) => total + product.quantity,0);
-    await expect(page.getByText('No. of Items :').locator('..')).toContainText(totalItems.toString());
-    const expectedAmount = productsToBuy.reduce((total, product) => total + (product.price * product.quantity),0);
-    await expect(page.getByText('Total Amount :').locator('..')).toContainText(expectedAmount.toString());
-    await page.getByRole('button', {name: 'Place Order'}).click();
-    await page.getByRole('combobox').selectOption('India');
-    await page.getByRole('checkbox').check();
-    await page.getByRole('button', {name: 'Proceed'}).click();
-    await expect(page.getByText('Thank you, your order has been placed Successfully')).toBeVisible();
-    await page.screenshot({path: 'test-results/task3-order-success.png',fullPage: true});
+
+        await expect(row.locator(".amount").nth(1)).toHaveText(
+          expectedTotal.toString()
+        );
+      }
+
+      await greenKartPage.actions.screenshot(
+        "task3-cart-products-validation"
+      );
+    });
+
+    await test.step("Verify total number of items", async () => {
+      const totalItems = productsToBuy.reduce(
+        (total, product) => total + product.quantity,
+        0
+      );
+
+      const numberOfItems = await cartPage.getNumberOfItems();
+
+      expect(numberOfItems).toContain(totalItems.toString());
+
+      await greenKartPage.actions.screenshot(
+        "task3-total-items-validation"
+      );
+    });
+
+    await test.step("Verify total amount", async () => {
+      const expectedAmount = productsToBuy.reduce(
+        (total, product) =>
+          total + product.price * product.quantity,
+        0
+      );
+
+      const totalAmount = await cartPage.getTotalAmount();
+
+      expect(totalAmount).toContain(expectedAmount.toString());
+
+      await greenKartPage.actions.screenshot(
+        "task3-total-amount-validation"
+      );
+    });
+
+    await test.step("Place the order", async () => {
+      await checkoutPage.clickPlaceOrder();
+
+      await greenKartPage.actions.screenshot(
+        "task3-place-order-page"
+      );
+    });
+
+    await test.step("Select country and accept terms", async () => {
+      await checkoutPage.selectCountry("India");
+      await checkoutPage.acceptTerms();
+
+      await greenKartPage.actions.screenshot(
+        "task3-country-and-terms"
+      );
+    });
+
+    await test.step("Proceed with the order", async () => {
+      await checkoutPage.proceed();
+
+      await expect(checkoutPage.successMessage).toBeVisible();
+
+      await greenKartPage.actions.screenshot(
+        "task3-order-success"
+      );
+    });
+  });
 });

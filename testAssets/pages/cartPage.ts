@@ -12,9 +12,9 @@ export default class CartPage {
   constructor(public page: Page) {
     this.actions = new Actions(this.page);
 
-    this.proceedToCheckoutButton = this.page.getByRole("button", {
-      name: "PROCEED TO CHECKOUT",
-    });
+this.proceedToCheckoutButton = this.page.locator(
+  'button:has-text("PROCEED TO CHECKOUT")'
+);
 
     this.cartRows = this.page.locator("#productCartTables tbody tr");
 
