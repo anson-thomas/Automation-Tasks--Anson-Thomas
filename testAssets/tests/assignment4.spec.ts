@@ -46,7 +46,6 @@ test.describe("Day 4 Assignment",  ()=>{
         })
         const details = await homePage.getTableDetails();        
         await test.step("Print Contact, Country and Salary", async () => {
-            // await homePage.getTableDetails()
         for (const row of details) {
         console.log(
             `Contact : ${row.Contact}; Country: ${row.Country}; Salary: ${row.Salary}`
