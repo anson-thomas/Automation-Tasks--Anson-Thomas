@@ -1,13 +1,8 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../pages/customFixtures";
 import list from "../testData/list.json";
 
-import GreenKartPage from "../pages/greenKartPage";
-import CartPage from "../pages/cartPage";
-import CheckoutPage from "../pages/checkoutPage";
-
 test.describe("GreenKart Automation", () => {
-  test("Task 1 - Identify and group products by category", async ({ page }, testInfo) => {
-    const greenKartPage = new GreenKartPage(page);
+  test("Task 1 - Identify and group products by category", async ({ page, greenKartPage }, testInfo) => {
     await test.step("Navigate to GreenKart application", async () => {
       await greenKartPage.launchWebApp();
       await expect(page).toHaveURL(/seleniumPractise/);
@@ -47,8 +42,7 @@ test.describe("GreenKart Automation", () => {
     });
   });
 
-  test("Task 2 - Add products to cart based on category", async ({page}, testInfo) => {
-    const greenKartPage = new GreenKartPage(page);
+  test("Task 2 - Add products to cart based on category", async ({page,greenKartPage}, testInfo) => {
     const productsToBuy = [...list.productsToBuy.vegetables,...list.productsToBuy.fruits,...list.productsToBuy.nuts,];
     await test.step("Navigate to GreenKart application", async () => {
       await greenKartPage.launchWebApp();
@@ -69,10 +63,7 @@ test.describe("GreenKart Automation", () => {
     });
   });
 
-  test("Task 3 - Verify cart items and proceed for billing", async ({page}, testInfo) => {
-    const greenKartPage = new GreenKartPage(page);
-    const cartPage = new CartPage(page);
-    const checkoutPage = new CheckoutPage(page);
+  test("Task 3 - Verify cart items and proceed for billing", async ({page,greenKartPage,cartPage,checkoutPage}, testInfo) => {
     const productsToBuy = [...list.productsToBuy.vegetables,...list.productsToBuy.fruits,...list.productsToBuy.nuts,];
     await test.step("Navigate to GreenKart application", async () => {
       await greenKartPage.launchWebApp();
