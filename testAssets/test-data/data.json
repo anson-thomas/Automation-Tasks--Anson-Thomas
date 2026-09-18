@@ -1,0 +1,22 @@
+{
+
+    "fieldName":{
+        "firstName":"First Name",
+        "lastName" : "Last Name",
+        "email": "Email",
+        "password": "Password",
+        "repeatPassword": "Repeat Password"
+    },
+    "fieldValue":{
+        "firstName":"Dhoni",
+        "lastName" : "Kohli",
+        "email": "a@g.com",
+        "password": "123456789",
+        "repeatPassword": "12356789"
+    },
+    "tableValue":{
+        "contact" : "Contact",
+        "country" : "Country",
+        "salary" : "Salary"
+    }    
+}
