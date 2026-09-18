@@ -44,10 +44,16 @@ test.describe("Day 4 Assignment",  ()=>{
             await homePage.launchWebPage();
             await expect(homePage.header).toBeVisible();
         })
+        const details = await homePage.getTableDetails();        
         await test.step("Print Contact, Country and Salary", async () => {
-            await homePage.getTableDetails()
+            // await homePage.getTableDetails()
+        for (const row of details) {
+        console.log(
+            `Contact : ${row.Contact}; Country: ${row.Country}; Salary: ${row.Salary}`
+        );
+    }
         });
-        const details = await homePage.getTableDetails();
+
         await test.step("Print salary greater than and less than 5000", async () => {
         console.log("\n Objects with salary greater than and less than 5000 \n");    
         for (const row of details) {

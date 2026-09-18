@@ -32,7 +32,7 @@ async getTableDetails() {
             Country: country,
             Salary: Number(salary)
         };
-        console.log(`Contact : ${contact}; Country: ${country}; Salary: ${salary}`);
+        // console.log(`Contact : ${contact}; Country: ${country}; Salary: ${salary}`);
         details.push(detailsObject);
     }
     return details;
