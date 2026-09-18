@@ -1,8 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","30963","Verify account creation, OTP verification, sign-out and successful sign-in","chromium","2026-09-17","broken","2026-09-17","PlayGround Account Creation and Login","assignment3.spec.ts","",""
-"","3717","Task 3 - Verify cart items and proceed for billing","chromium","2026-09-17","passed","2026-09-17","","assignment2.spec.ts","",""
-"","12126","Task 3 - Verify cart items and proceed for billing","chromium","2026-09-17","failed","2026-09-17","GreenKart Automation","assignment2.spec.ts","",""
-"","2337","Task 2 - Add products to cart based on category","chromium","2026-09-17","passed","2026-09-17","","assignment2.spec.ts","",""
-"","3327","Task 1 - Identify and group products by category","chromium","2026-09-17","passed","2026-09-17","GreenKart Automation","assignment2.spec.ts","",""
-"","2221","Task 1 - Identify and group products by category","chromium","2026-09-17","passed","2026-09-17","","assignment2.spec.ts","",""
-"","3442","Task 2 - Add products to cart based on category","chromium","2026-09-17","passed","2026-09-17","GreenKart Automation","assignment2.spec.ts","",""
