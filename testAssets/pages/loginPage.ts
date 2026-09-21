@@ -1,9 +1,9 @@
 import { Locator, Page, test } from "@playwright/test";
 
 export default class LoginPage {
-  readonly emailAddressField: Locator;
-  readonly passwordField: Locator;
-  readonly loginButton: Locator;
+   emailAddressField: Locator;
+   passwordField: Locator;
+   loginButton: Locator;
 
   constructor(public page: Page) {
     this.emailAddressField = this.page.locator("//input[@id='email']");

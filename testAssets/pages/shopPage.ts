@@ -1,10 +1,11 @@
-import { Locator, Page, test } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 export default class ShopPage {
-    readonly products: Locator;
-    readonly productNames: Locator;
-    readonly productPrices: Locator;
-    readonly addToCartButtons: Locator;
+     products: Locator;
+     productNames: Locator;
+     productPrices: Locator;
+     addToCartButtons: Locator;
+     shopHeading: Locator;
 
     constructor(public page: Page) {
         this.products = this.page.locator(
@@ -22,14 +23,13 @@ export default class ShopPage {
         this.addToCartButtons = this.page.locator(
             "//button[normalize-space()='Add to Cart']"
         );
+        this.shopHeading = this.page.locator("//h1[text()='Products']");
     }
 
     async launchShopPage() {
-        await test.step("Navigate to Shop page", async () => {
-            await this.page.goto(
-                "https://www.playground.testingmavens.tools/shop?page=1"
-            );
-        });
+        await this.page.goto(
+            "https://www.playground.testingmavens.tools/shop?page=1"
+        );
     }
 
     async addProductToCart(productName: string) {
@@ -37,9 +37,7 @@ export default class ShopPage {
             hasText: productName
         });
 
-        await product
-            .locator(".//button[normalize-space()='Add to Cart']")
-            .click();
+        product.locator("xpath=.//button[normalize-space()='Add to Cart']").click();
     }
 
     async getProductDetails(productName: string) {
@@ -47,11 +45,10 @@ export default class ShopPage {
             hasText: productName
         });
 
-        const name = await product.locator(".//h2").innerText();
-
+        const name = await product.locator("xpath=.//h2").innerText();
         const priceText = await product
             .locator(
-                ".//p[contains(@class,'text-xl') and contains(@class,'font-semibold')]"
+                "xpath=.//p[contains(@class,'text-xl') and contains(@class,'font-semibold')]"
             )
             .innerText();
 
