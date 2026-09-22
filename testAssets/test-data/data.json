@@ -1,4 +1,10 @@
 {
+    "products": [
+        "Dell XPS 13",
+        "Bose QuietComfort 45",
+        "LG C1 OLED",
+        "Toshiba Fire TV C350 Series"
+    ],
 
     "fieldName":{
         "firstName":"First Name",

@@ -1,34 +1,41 @@
-import {test as base, expect, Page} from "@playwright/test"
-import HomePage from "./homePage"
-import GreenKartPage from "./greenKartPage";
+import { test as base } from "@playwright/test";
+import HomePage from "./homePage";
+import ShopPage from "./shopPage";
 import CartPage from "./cartPage";
+import GreenKartPage from "./greenKartPage";
 import CheckoutPage from "./checkoutPage";
-
 type Pages = {
     homePage: HomePage;
+    shopPage: ShopPage;
     greenKartPage: GreenKartPage;
     cartPage: CartPage;
-    checkoutPage: CheckoutPage;    
-}
+    checkoutPage: CheckoutPage; 
+};
 
-export const test = base.extend<Pages, {}>({
-    homePage: async({page}, use)=>{
-        const homePage = new HomePage(page);
-        await use (homePage);
+export const test = base.extend<Pages>({
+    homePage: async ({ page }, use) => {
+        await use(new HomePage(page));
     },
-    greenKartPage: async ({ page }, use) => {
+
+    shopPage: async ({ page }, use) => {
+        await use(new ShopPage(page));
+    },
+
+    cartPage: async ({ page }, use) => {
+        await use(new CartPage(page));
+    },
+     greenKartPage: async ({ page }, use) => {
     await use(new GreenKartPage(page));
   },
-
-  cartPage: async ({ page }, use) => {
-    await use(new CartPage(page));
-  },
-
   checkoutPage: async ({ page }, use) => {
     await use(new CheckoutPage(page));
   },
-})
-export {expect} from "@playwright/test"
+});
+
+export { expect } from "@playwright/test";
+
+
+
 
 
 
