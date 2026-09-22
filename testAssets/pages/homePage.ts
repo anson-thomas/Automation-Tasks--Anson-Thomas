@@ -1,12 +1,15 @@
 import { Locator,Page, test, expect } from "@playwright/test";
+import Actions from "../../helper/actions";
+
 export default class HomePage{
+    actions: Actions; 
     header : Locator;
     menu : Locator;
     login : Locator;
     profile : Locator;
     shop : Locator;
 constructor(public page: Page){
-    this.page = page;
+    this.actions = new Actions();
     this.header = this.page.locator("//div[text()='PlayGround']");
     this.menu = this.page.locator("//div[@class='relative']/div[contains(@class,'cursor-pointer') and .//svg[@viewBox='0 0 448 512']]");
     this.login = this.page.locator("//li[text()='Login']")
@@ -25,13 +28,13 @@ constructor(public page: Page){
 }
   async openMenu() {
     await test.step("Open user menu", async () => {
-      await this.menu.click();
+      await this.actions.click(this.menu);
     });
 }
   async openLoginPage() {
     await test.step("Navigate to Login page", async () => {
       await this.openMenu();
-      await this.login.click();
+      await this.login
     });
 }
   async verifyLogin(){

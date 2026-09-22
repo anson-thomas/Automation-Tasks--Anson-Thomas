@@ -1,11 +1,13 @@
 import { Locator, Page, test } from "@playwright/test";
-
+import Actions from "../../helper/actions";
 export default class LoginPage {
+   actions: Actions; 
    emailAddressField: Locator;
    passwordField: Locator;
    loginButton: Locator;
 
   constructor(public page: Page) {
+    this.actions = new Actions();
     this.emailAddressField = this.page.locator("//input[@id='email']");
     this.passwordField = this.page.locator("//input[@type='password']");
     this.loginButton = this.page.locator("//button[@type='submit']");
@@ -23,7 +25,7 @@ export default class LoginPage {
   }
   async clickLogin() {
     await test.step("Click Login button", async () => {
-      await this.loginButton.click();
+      await this.actions.click(this.loginButton);
     });
   }
 }
