@@ -44,7 +44,6 @@ test.describe('Employee Excel Processing', () => {
             expect(employee[data.validationResult.column]).toBe(data.validationResult.valid);
         }
     });
-
     test('TS06 - Verify that processed data is saved into a new output Excel file', () => {
         const processedEmployees = excelUtils.processEmployees(employees);
         excelUtils.writeEmployees(processedEmployees);

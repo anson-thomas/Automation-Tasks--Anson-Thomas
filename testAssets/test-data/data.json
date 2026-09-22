@@ -8,6 +8,7 @@
     "validationResult": {
         "column": "Validation Result",
         "valid": "Valid"
+        
     },
     "processedDate": "Processed Date"
 }
