@@ -3,7 +3,7 @@ const path = require('path');
 const inputFile = path.join(__dirname,'../testAssets/test-data/Employee_Input.xlsx');
 const outputFile = path.join(__dirname,'../test-results/Employee_Output.xlsx');
 
-// Read employees from input Excel
+
 function readEmployees() {
     const workbook = XLSX.readFile(inputFile);
     const sheet = workbook.Sheets['Sheet1'];
@@ -11,7 +11,7 @@ function readEmployees() {
     return employees;
 }
 
-// Process employee records
+
 function processEmployees(employees: any[]) {
     return employees.map((employee) => {
         const isValid =
@@ -28,7 +28,7 @@ function processEmployees(employees: any[]) {
     });
 }
 
-// Write processed employees to output Excel
+
 function writeEmployees(employees: any[]) {
     const workbook = XLSX.utils.book_new();
     const sheet = XLSX.utils.json_to_sheet(employees);
@@ -36,7 +36,7 @@ function writeEmployees(employees: any[]) {
     XLSX.writeFile(workbook, outputFile);
 }
 
-// Read employees from output Excel
+
 function readOutputEmployees() {
     const workbook = XLSX.readFile(outputFile);
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
