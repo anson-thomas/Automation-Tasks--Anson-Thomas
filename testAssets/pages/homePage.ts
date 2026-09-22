@@ -1,14 +1,35 @@
 import { Locator, Page, test, expect } from "@playwright/test";
+import Actions from "../../helper/actions";
 
-export default class HomePage {
-  readonly playGroundLink: Locator;
-  readonly menuButton: Locator;
-  readonly signUpOption: Locator;
-  readonly loginOption: Locator;
-  readonly logoutOption: Locator;
+export default class HomePage{
 
-  constructor(public page: Page) {
-    this.playGroundLink = this.page.getByRole("link", {
+    actions: Actions;
+    header: Locator;
+    inputValue: (inputValue: string) => Locator;
+    rows: Locator;
+    playGroundLink: Locator;
+    menuButton: Locator;
+    signUpOption: Locator;
+    loginOption: Locator;
+    logoutOption: Locator;
+
+    constructor(public page: Page){
+
+        this.actions = new Actions();
+
+        this.header = this.page.locator(
+            '//h1[@class="post-title entry-title"]'
+        );
+
+        this.inputValue = (inputValue: string) =>
+            this.page.locator(
+                `//label[normalize-space()='${inputValue}']/following::input[1]`
+            );
+
+        this.rows = this.page.locator(
+            '//table[@id="contactList"]//tbody//tr'
+        );
+        this.playGroundLink = this.page.getByRole("link", {
       name: "PlayGround",
     });
 
@@ -23,57 +44,57 @@ export default class HomePage {
     });
 
     this.logoutOption = this.page.getByText("Log Out");
-  }
+    }
 
-  async launchWebApp() {
-    await test.step("Navigate to PlayGround application", async () => {
-      await this.page.goto("https://www.playground.testingmavens.tools/");
-    });
-  }
+    async launchWebPage(){
+        await this.page.goto(
+            "https://www.hyrtutorials.com/p/add-padding-to-containers.html"
+        );
+    }
 
-async verifyPlayGroundPage() {
-  await test.step("Verify user is on PlayGround application", async () => {
-    await expect(this.page).toHaveURL(
-      "https://www.playground.testingmavens.tools/"
-    );
-  });
+    async enterFieldValues(fieldName: string, fieldValue: string){
+        await this.actions.fill(
+            this.inputValue(fieldName),
+            fieldValue
+        );
+    }
+
+    async getFieldValue(fieldName: string): Promise<string>{
+        return await this.inputValue(fieldName).inputValue();
+    }
+
+    async getTableDetails(){
+
+        const rows = this.rows;
+        const details = [];
+
+        for(let i = 1; i < await rows.count(); i++){
+
+            const columns = rows.nth(i).locator("td");
+
+            const contact = await columns.nth(1).innerText();
+            const country = await columns.nth(2).innerText();
+            const salary = await columns.nth(3).innerText();
+
+            const detailsObject = {
+                Contact: contact,
+                Country: country,
+                Salary: Number(salary)
+            };
+
+            details.push(detailsObject);
+        }
+
+        return details;
+    }
+    async validateTableDetails(){
+    for(let i = 1; i < await this.rows.count(); i++){
+
+        const row = this.rows.nth(i);
+
+        await this.actions.expectVisible(row);
+    }
+}
 }
 
-  async openMenu() {
-    await test.step("Open user menu", async () => {
-      await this.menuButton.click();
-    });
-  }
-
-  async openSignUpPage() {
-    await test.step("Navigate to Sign Up page", async () => {
-      await this.openMenu();
-      await this.signUpOption.click();
-    });
-  }
-
-  async openLoginPage() {
-    await test.step("Navigate to Login page", async () => {
-      await this.openMenu();
-      await this.loginOption.click();
-    });
-  }
-
-  async logout() {
-    await test.step("Sign out from the application", async () => {
-      await this.openMenu();
-
-      this.page.once("dialog", async (dialog) => {
-        await dialog.dismiss();
-      });
-
-      await this.logoutOption.click();
-    });
-  }
-  async switchToPlayGround() {
-  await test.step("Switch to PlayGround tab", async () => {
-    await this.page.bringToFront();
-  });
-}
-}
 
