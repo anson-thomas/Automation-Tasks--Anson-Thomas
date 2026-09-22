@@ -1,0 +1,14 @@
+{
+    "employeeId": "Employee ID",
+    "employeeName": "Employee Name",
+    "department": "Department",
+    "salary": "Salary",
+    "status": "Status",
+    "newStatus": "Verified",
+    "validationResult": {
+        "column": "Validation Result",
+        "valid": "Valid"
+        
+    },
+    "processedDate": "Processed Date"
+}
