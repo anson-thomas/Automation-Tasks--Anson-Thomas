@@ -20,7 +20,7 @@ export default class CartPage {
     cartRows: Locator;
     numberOfItems: Locator;
     totalAmount: Locator;
-    actions: Actions;
+
 
 
     constructor(public page: Page) {
@@ -36,7 +36,7 @@ export default class CartPage {
         this.total = this.page.locator("//p[contains(normalize-space(), 'Total')]/span");
         this.cartSubTotal = this.page.locator("//p[contains(normalize-space(), 'Subtotal')]/span");
         this.resetCartButton= this.page.locator("//button[normalize-space()='Reset cart']")
-        this.emptyCartmsg = this.page.locator("//h1[text()='Your Cart feels lonely.']")
+        this.emptyCartmsg = this.page.locator("//h1[normalize-space()='Your Cart feels lonely.']")
         this.actions = new Actions();
         this.proceedToCheckoutButton = this.page.getByRole( "button", { name: "PROCEED TO CHECKOUT" } ); 
         this.cartRows = this.page.locator( "#productCartTables tbody tr" ); 
