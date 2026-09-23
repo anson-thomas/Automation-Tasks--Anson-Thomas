@@ -1,6 +1,7 @@
 import { test, expect } from "../pages/customFixtures";
 import data from "../test-data/data.json";
 import { testStep } from "../../helper/utility";
+import { skip } from "node:test";
 
 test.describe("Day 5 Assignment", () => {
 

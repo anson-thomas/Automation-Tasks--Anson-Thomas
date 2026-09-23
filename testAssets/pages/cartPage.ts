@@ -37,7 +37,7 @@ export default class CartPage {
         this.cartSubTotal = this.page.locator("//p[contains(normalize-space(), 'Subtotal')]/span");
         this.resetCartButton= this.page.locator("//button[normalize-space()='Reset cart']")
         this.emptyCartmsg = this.page.locator("//h1[normalize-space()='Your Cart feels lonely.']")
-        this.actions = new Actions();
+        // this.actions = new Actions();
         this.proceedToCheckoutButton = this.page.getByRole( "button", { name: "PROCEED TO CHECKOUT" } ); 
         this.cartRows = this.page.locator( "#productCartTables tbody tr" ); 
         this.numberOfItems = this.page .getByText("No. of Items :") .locator(".."); 
@@ -87,6 +87,7 @@ export default class CartPage {
     async resetCart() {
     await this.actions.click(this.resetCartButton);
     }
+    
     async proceedToCheckout() {
         await this.actions.click(
             this.proceedToCheckoutButton
