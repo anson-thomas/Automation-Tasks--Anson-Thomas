@@ -17,7 +17,7 @@ export default class GreenKartPage {
           }
 
     async launchWebApp() {
-        await this.page.goto("/seleniumPractise/#/");
+        await this.page.goto("https://rahulshettyacademy.com/seleniumPractise/#/");
     }
 
     async getProductNames(): Promise<string[]> {
