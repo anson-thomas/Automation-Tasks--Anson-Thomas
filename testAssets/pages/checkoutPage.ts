@@ -12,13 +12,12 @@ export default class CheckoutPage {
     actions: Actions;
 
     constructor(public page: Page) {
-
       this.actions = new Actions();    
-      this.placeOrderButton = this.page.getByRole("button", {name: "Place Order",});
-      this.countryDropdown = this.page.getByRole("combobox");
-      this.termsCheckbox = this.page.getByRole("checkbox");
-      this.proceedButton = this.page.getByRole("button", {name: "Proceed",});
-      this.successMessage = this.page.getByText("Thank you, your order has been placed Successfully");
+      this.placeOrderButton = this.page.locator("//button[text()='Place Order']");
+      this.countryDropdown = this.page.locator("//select");
+      this.termsCheckbox = this.page.locator("//input[@class='chkAgree']");
+      this.proceedButton = this.page.locator("//button[text()='Proceed']");
+      this.successMessage = this.page.locator("//span[text()='Thank you, your order has been placed successfully ']");
     }
 
     async clickPlaceOrder() {

@@ -10,10 +10,10 @@ export default class GreenKartPage {
 
     constructor(public page: Page) {
       this.actions = new Actions();
-      this.products = this.page.locator(".product"); 
-      this.productNames = this.products.locator(".product-name"); 
-      this.cartCount = this.page.locator(".cart-count"); 
-      this.cartLink = this.page.getByRole("link", { name: "Cart" });
+      this.products = this.page.locator("//div[@class='product']"); 
+      this.productNames = this.page.locator("//h4[@class='product-name']"); 
+      this.cartCount = this.page.locator("//span[@class='cart-count']"); 
+      this.cartLink = this.page.locator("//a[@class='cart-icon']");
           }
 
     async launchWebApp() {

@@ -10,10 +10,10 @@ export default class CartPage {
 
     constructor(public page: Page) {
     this.actions = new Actions();
-    this.proceedToCheckoutButton = this.page.getByRole( "button", { name: "PROCEED TO CHECKOUT" } ); 
-    this.cartRows = this.page.locator( "#productCartTables tbody tr" ); 
-    this.numberOfItems = this.page .getByText("No. of Items :") .locator(".."); 
-    this.totalAmount = this.page .getByText("Total Amount :") .locator("..");
+    this.proceedToCheckoutButton = this.page.locator( "//button[normalize-space()='PROCEED TO CHECKOUT']"); 
+    this.cartRows = this.page.locator("//table[@class='cartTable']//tr"); 
+    this.numberOfItems = this.page.locator("//b[normalize-space()='No. of Items :']/.."); 
+    this.totalAmount = this.page.locator("//span[@class='totAmt']")
     }
 
     async proceedToCheckout() {
