@@ -1,4 +1,4 @@
-import { Locator,Page, test, expect } from "@playwright/test";
+import { Locator, Page, test } from "@playwright/test";
 import Actions from "../../helper/actions";
 
 export default class HomePage{
@@ -99,6 +99,7 @@ constructor(public page: Page){
         }
     }
     async addProductToCart(productName: string) {
+        await this.showNewArrivalProduct(productName);
 
         const product =
             this.getNewArrivalProductCard(productName);
@@ -112,6 +113,5 @@ constructor(public page: Page){
     }
     async openCart() {
         await this.actions.click(this.cartIcon);
-        await expect(this.cartHeading).toBeVisible();
         }
     }

@@ -4,7 +4,8 @@ export async function testStep(
     name: string,
     page: Page,
     action: () => Promise<void>,
-    locator?: Locator
+    locator?: Locator,
+    options: { captureScreenshot?: boolean } = {}
 ) {
     await test.step(name, async () => {
 
@@ -13,6 +14,10 @@ export async function testStep(
         if (locator) {
             await locator.waitFor({ state: "visible" });
             await locator.scrollIntoViewIfNeeded();
+        }
+
+        if (options.captureScreenshot === false) {
+            return;
         }
 
         try {

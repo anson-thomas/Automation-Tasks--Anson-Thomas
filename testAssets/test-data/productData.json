@@ -1,10 +1,10 @@
 {
     "minimumProduct": {
-        "name": "Beats Studio Buds",
-        "price": 149.99
+        "name": "Audio-Technica ATH-M50xBT",
+        "price": 199
     },
     "maximumProduct": {
-        "name": "LG NanoCell 90 Series",
-        "price": 1799.99
+        "name": "Samsung QN90A Neo QLED",
+        "price": 1999.99
     }
 }
